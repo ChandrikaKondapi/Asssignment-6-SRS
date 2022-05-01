@@ -1,3 +1,5 @@
+
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
@@ -21,7 +23,6 @@ public class Main {
 class GUI extends JFrame implements ActionListener {
   JFrame window = new JFrame("Circles");
   public void init() {
-    CirclePanel cp = new CirclePanel();
     JFrame window = new JFrame("Circles");
     CirclePanel panel = new CirclePanel();
     window.setContentPane(panel);
@@ -40,19 +41,25 @@ class GUI extends JFrame implements ActionListener {
     JButton button2 = new JButton("Save");
     panel.setVisible(true);
     panel.add(button2);
-     button2.addActionListener(new ActionListener(){  
-    public void actionPerformed(ActionEvent e){  
-            cp.save(); 
-    }  
-    });  
+    button2.addActionListener(new ActionListener(){
+      public void actionPerformed(ActionEvent e){
+        panel.save();
+      }
+    });
     JButton button3 = new JButton("Load");
     panel.add(button3);
+    button3.addActionListener(new ActionListener(){
+      public void actionPerformed(ActionEvent e){
+        panel.load();
+      }
+    });
     JButton button4 = new JButton("Clear");
     panel.add(button4);
     button4.addActionListener(this);
     // button4. getContentPane(). invalidate();
     JButton button5 = new JButton("Random dots");
     panel.add(button5);
+    button5.addActionListener(this);
 
   }
 
@@ -65,6 +72,14 @@ class GUI extends JFrame implements ActionListener {
     if (e.getActionCommand() == "Clear") {
       super.getContentPane().removeAll();
       clear();
+    }
+    else if (e.getActionCommand() == "Random dots"){
+      System.out.println("random dots clicked");
+      //Graphics g=super.getContentPane().getGraphics();
+      JButton btn=(JButton) e.getSource();
+      CirclePanel c=(CirclePanel) btn.getParent();
+      Randomdots random= new Randomdots(1,1,10,Color.red,c);
+      random.draw();
     }
   }
 }
