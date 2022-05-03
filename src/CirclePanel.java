@@ -16,7 +16,8 @@ public class CirclePanel extends JPanel {
 	int v=0;
 	int m=0;
 	boolean isdrawCircle = true;
-
+	DrawLine lineToPain;
+	List<DrawLine> lineDB;
 	public void addCircle(DrawCircle circle) {
 		circles.add(circle);
 		this.repaint();
@@ -29,17 +30,25 @@ public class CirclePanel extends JPanel {
 			for (DrawCircle c : circles) {
 				c.draw(g);
 			}
+			if(lineDB!=null && lineDB.size()>0){
+				for (DrawLine line: lineDB) {
+					drawLines(g, line);
 
+				}
+			}
 			System.out.println("called paint function");
 
 		}
-
+		else{
+			drawLines(g, lineToPain);
+			System.out.println("called to draw line");
+		}
 	}
 
 	public void run() {
 		System.out.println("run called");
 		int count = 0;
-		//lineDB = new ArrayList<>();
+		lineDB = new ArrayList<>();
 
 
 		try {
@@ -80,7 +89,7 @@ public class CirclePanel extends JPanel {
 				Scanner sc = new Scanner(System.in);
 				float distParam = sc.nextFloat();
 				double dist;
-
+				List<DrawLine> lines = new ArrayList<>();
 				for (int u = 0; u < count; u++) {
 					Arrays.sort(visited);
 					int cond = Arrays.binarySearch(visited, rNum);
@@ -93,6 +102,9 @@ public class CirclePanel extends JPanel {
 						dist = Math.hypot((int) x.get(rNum) - (int) x.get(u), (int) y.get(rNum) - (int) y.get(u));
 						System.out.println(dist);
 						if (dist <= distParam) {
+
+							lineToPain = new DrawLine((int) x.get(rNum), (int) y.get(rNum), (int) x.get(u), (int) y.get(u));
+							lineDB.add(lineToPain);
 							isdrawCircle = false;
 							paint(this.getGraphics());
 							try {
@@ -213,5 +225,13 @@ public class CirclePanel extends JPanel {
 			this.repaint();
 		}
 	}
+
+	void drawLines(Graphics g, DrawLine lineToPain) {
+		Graphics2D g2d = (Graphics2D) g;
+
+		g2d.drawLine(lineToPain.getX1(), lineToPain.getY1(), lineToPain.getX2(), lineToPain.getY2());
+
+	}
+
 
 }

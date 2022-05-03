@@ -7,12 +7,14 @@ import java.awt.event.MouseAdapter;
 import javax.swing.JFrame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.FileNotFoundException;
 import java.util.*;
+
 
 
 public class Main {
 
-  public static void main(String[] args) {
+  public static void main(String[] args)  {
 
     GUI test = new GUI();
     test.init();
@@ -22,12 +24,14 @@ public class Main {
 
 class GUI extends JFrame implements ActionListener {
   JFrame window = new JFrame("Circles");
-  public void init() {
+
+
+  public void init(){
     JFrame window = new JFrame("Circles");
     CirclePanel panel = new CirclePanel();
     window.setContentPane(panel);
     panel.addMouseListener(new CircleClick(panel));
-    window.setSize(500, 500);
+    window.setSize(1000, 1000);
     window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     window.setVisible(true);
     JLabel label = new JLabel("Welcome");
@@ -38,18 +42,25 @@ class GUI extends JFrame implements ActionListener {
     JButton button = new JButton("RUN");
     //button.setBounds(1000, 10000, 100, 100);
     panel.add(button);
+    button.addActionListener(new ActionListener() {
+      public void actionPerformed(ActionEvent e) {
+        panel.run();
+        System.out.println("all connected successfully");
+      }
+    });
+
     JButton button2 = new JButton("Save");
     panel.setVisible(true);
     panel.add(button2);
-    button2.addActionListener(new ActionListener(){
-      public void actionPerformed(ActionEvent e){
+    button2.addActionListener(new ActionListener() {
+      public void actionPerformed(ActionEvent e) {
         panel.save();
       }
     });
     JButton button3 = new JButton("Load");
     panel.add(button3);
-    button3.addActionListener(new ActionListener(){
-      public void actionPerformed(ActionEvent e){
+    button3.addActionListener(new ActionListener() {
+      public void actionPerformed(ActionEvent e) {
         panel.load();
       }
     });
@@ -68,17 +79,16 @@ class GUI extends JFrame implements ActionListener {
     t.init();
   }
 
-  public void actionPerformed(ActionEvent e) {
+  public void actionPerformed(ActionEvent e)  {
     if (e.getActionCommand() == "Clear") {
       super.getContentPane().removeAll();
       clear();
-    }
-    else if (e.getActionCommand() == "Random dots"){
+    } else if (e.getActionCommand() == "Random dots") {
       System.out.println("random dots clicked");
       //Graphics g=super.getContentPane().getGraphics();
-      JButton btn=(JButton) e.getSource();
-      CirclePanel c=(CirclePanel) btn.getParent();
-      Randomdots random= new Randomdots(1,1,10,Color.red,c);
+      JButton btn = (JButton) e.getSource();
+      CirclePanel c = (CirclePanel) btn.getParent();
+      Randomdots random = new Randomdots(1, 1, 10, Color.red, c);
       random.draw();
     }
   }
